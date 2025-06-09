@@ -7,11 +7,14 @@ use Firebase\JWT\Key;
 use Vendor\Controller;
 use Models\Member;
 
+
+
 class AuthMiddleware extends Controller {
     public static function checkToken() {
         $header = getallheaders();
         $jwt = $header['Auth'];
-        $secret_key = "123";
+        $conf = parse_ini_file(__DIR__ . '/../../vendor/.env');
+        $secret_key = $conf['secret_key'];
         try {
             $payload = JWT::decode($jwt, new Key($secret_key, 'HS256'));
             $jwt = self::genToken($payload->data->id);
@@ -46,7 +49,8 @@ class AuthMiddleware extends Controller {
     }
 
     public static function genToken($id) {
-        $secret_key = "123";
+        $conf = parse_ini_file(__DIR__ . '/../../vendor/.env');
+        $secret_key = $conf['secret_key'];
         $issuer_claim = "http://localhost";
         $audience_claim = "http://localhost";
         $issuedat_claim = time();

@@ -1,3 +1,5 @@
 test_autoload.php
 .env
 .gitattributes
+/vendor/
+/composer.lock
