@@ -1,5 +1,9 @@
 test_autoload.php
-.env
 .gitattributes
-/vendor/
+/vendor/*
+!/vendor/.env.example
+!/vendor/Controller.php
+!/vendor/DB.php
+!/vendor/RouteManager.php
+!/vendor/Router.php
 /composer.lock
