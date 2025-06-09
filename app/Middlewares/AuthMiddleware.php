@@ -5,12 +5,17 @@ use \Exception;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Vendor\Controller;
-use Models\Member;
+use Models\Member as memberModel;
 
 class AuthMiddleware extends Controller {
+
     public static function checkToken() {
         $header = getallheaders();
-        $jwt = $header['Auth'];
+        $jwt = $header['Authorization'];
+        // Remove "Bearer " prefix (7 characters) from the token if it exists
+        if (isset($jwt) && strpos($jwt, 'Bearer ') === 0) {
+            $jwt = substr($jwt, 7);
+        }
         $conf = parse_ini_file(__DIR__ . '/../../vendor/.env');
         $secret_key = $conf['secret_key'];
         try {
@@ -23,7 +28,7 @@ class AuthMiddleware extends Controller {
             );
         } catch (Exception $e) {
             $response = array(
-                "status" => $e->getCode(),
+                "status" => 403,
                 "message" => $e->getMessage()
             );
         }
@@ -33,26 +38,33 @@ class AuthMiddleware extends Controller {
     public static function doLogin() {
         $mId = $_POST['mId'];
         $password = $_POST['password'];
-        $memberModel = new Member();
+        $memberModel = new memberModel();
         $response = $memberModel->verifyCredentials($mId, $password);
+
         if ($response['status'] == 200) {
             $jwt = self::genToken($mId);
-            $response = array(
+            $res = array(
                 "status" => 200,
                 "message" => "Login successful",
                 "token" => $jwt
             );
+            return $res;
+        } else {
+            return array(
+                "status" => 401,
+                "message" => "Login failed"
+            );
         }
-        return $response;
     }
 
     public static function genToken($id) {
         $conf = parse_ini_file(__DIR__ . '/../../vendor/.env');
+        
         $secret_key = $conf['secret_key'];
         $issuer_claim = "http://localhost";
         $audience_claim = "http://localhost";
         $issuedat_claim = time();
-        $expiration_claim = $issuedat_claim + 5;
+        $expiration_claim = $issuedat_claim + 100000;
         $payload = array(
             "iss" => $issuer_claim,
             "aud" => $audience_claim,

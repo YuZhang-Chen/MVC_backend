@@ -22,7 +22,9 @@ class Router {
             $controller = new $class();
             $response = $controller->$method();
             return $response;
+        } else {
+            return ['status' => 404, 'message' => 'Action not found: ' . $action];
         }
-        return ['status' => 404, 'message' => 'Action not found: ' . $action];
+
     }
 }
