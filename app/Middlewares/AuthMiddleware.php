@@ -7,8 +7,6 @@ use Firebase\JWT\Key;
 use Vendor\Controller;
 use Models\Member;
 
-
-
 class AuthMiddleware extends Controller {
     public static function checkToken() {
         $header = getallheaders();
