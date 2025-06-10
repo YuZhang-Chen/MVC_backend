@@ -28,7 +28,7 @@ class AuthMiddleware extends Controller {
             );
         } catch (Exception $e) {
             $response = array(
-                "status" => 403,
+                "status" => 401,
                 "message" => $e->getMessage()
             );
         }
@@ -64,7 +64,7 @@ class AuthMiddleware extends Controller {
         $issuer_claim = "http://localhost";
         $audience_claim = "http://localhost";
         $issuedat_claim = time();
-        $expiration_claim = $issuedat_claim + 100000;
+        $expiration_claim = $issuedat_claim + 600;
         $payload = array(
             "iss" => $issuer_claim,
             "aud" => $audience_claim,
