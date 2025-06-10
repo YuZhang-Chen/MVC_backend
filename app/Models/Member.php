@@ -45,4 +45,17 @@ class Member {
         $args = [$mId, $password];
         return DB::read($sql, $args);
     }
+
+    public function getRoles($id) {
+        $sql = "SELECT `role_id` FROM `user_role` WHERE user_id=?";
+        $arg = [$id];
+        $response = DB::read($sql, $arg);
+        $result = $response["result"];
+        $cnt = count($result);
+        for ($i=0; $i < $cnt; $i++) { 
+            $result[$i] = $result[$i]["role_id"];
+        }
+        $response["result"] = $result;
+        return $response;
+    }
 }

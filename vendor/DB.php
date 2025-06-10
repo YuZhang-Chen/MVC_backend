@@ -32,7 +32,6 @@ class DB extends Controller {
         }
         $stmt = self::$conn->prepare($sql);
         $result = $stmt->execute($args);
-
         if ($result) {
             $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
             if (count($rows) === 0) {

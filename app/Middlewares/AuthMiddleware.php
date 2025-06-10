@@ -6,8 +6,26 @@ use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Vendor\Controller;
 use Models\Member as memberModel;
+use Models\Action;
 
 class AuthMiddleware extends Controller {
+    private static $id;
+
+    public static function checkPrevilege($action) {
+        $id = self::$id;
+        $memberModel = new memberModel();
+        $userResponse = $memberModel->getRoles($id);
+        $user_roles = $userResponse["result"];
+        $am = new Action();
+        $actionResponse = $am->getRoles($action);
+        $action_roles = $actionResponse["result"];
+        $r = count(array_intersect($user_roles, $action_roles));
+        if ($r != 0) {
+            return self::response(200, "有權限");
+        } else {
+            return self::response(403, "權限不足");
+        }
+    }
 
     public static function checkToken() {
         $header = getallheaders();
@@ -20,6 +38,7 @@ class AuthMiddleware extends Controller {
         $secret_key = $conf['secret_key'];
         try {
             $payload = JWT::decode($jwt, new Key($secret_key, 'HS256'));
+            self::$id = $payload->data->id;
             $jwt = self::genToken($payload->data->id);
             $response = array(
                 "status" => 200,

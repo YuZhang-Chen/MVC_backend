@@ -31,9 +31,12 @@ class Main {
         $response = $responseToken = AuthMiddleware::checkToken();
         if ($responseToken['status'] == 200) {
             if ($action !== "_no_action") {
-                $router = new Router();
-                require_once __DIR__ . "/../routes/web.php";
-                $response = $router->run($action);  
+                $response = AuthMiddleware::checkPrevilege($action);
+                if ($response['status'] == 200) {
+                    $router = new Router();
+                    require_once __DIR__ . "/../routes/web.php";
+                    $response = $router->run($action);  
+                }
             }
             $response['token'] = $responseToken['token'];
         } else {
