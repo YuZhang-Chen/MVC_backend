@@ -17,8 +17,8 @@ class Member {
     }
 
     public function newMember($mId, $name, $phone, $email, $password) {
-        $sql = "INSERT INTO `member` (`mId`, `name`, `phone`, `email`, `password`) VALUES (?, ?, ?, ?, ?)";
-        $args = [$mId, $name, $phone, $email, $password];
+        $sql = "INSERT INTO `member` (`mId`, `name`, `phone`, `email`, `password`) VALUES (?, ?, ?, ?, ?); INSERT INTO user_role (`user_id`, `role_id`) VALUES (?, 2);";
+        $args = [$mId, $name, $phone, $email, $password, $mId];
         return DB::create($sql, $args);
     }
 

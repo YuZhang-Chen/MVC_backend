@@ -36,8 +36,7 @@ class Order extends Controller{
         $oId = $_POST['oId'];
         return $this->orderModel->removeOrder($oId);
     }
-    
-    public function updateOrder() {
+      public function updateOrder() {
         if (isset($_POST['oId'], $_POST['mId'], $_POST['datetime'], $_POST['status'])) {
             $oId = $_POST['oId'];
             $mId = $_POST['mId'];
@@ -51,7 +50,7 @@ class Order extends Controller{
     public function countOrders() {
         $result = $this->orderModel->countOrders();
         if ($result['status'] == 200) {
-            return self::response(200, '獲取會員數量成功', $result['result'][0]['count']);
+            return self::response(200, '獲取訂單數量成功', $result['result'][0]['count']);
         } else {
             return self::response($result['status'], $result['message']);
         }

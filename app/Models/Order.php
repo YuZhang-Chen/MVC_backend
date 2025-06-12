@@ -32,8 +32,8 @@ class Order {
         $sql = "UPDATE `order` SET `mId` = ?, `datetime` = ?, `status` = ? WHERE `oId` = ?";
         $args = [$mId, $datetime, $status, $oId];
         return DB::update($sql, $args);
-    }
-
+    }    
+    
     public static function countOrders() {
         $sql = "SELECT COUNT(*) AS `count` FROM `order`";
         $args = null;

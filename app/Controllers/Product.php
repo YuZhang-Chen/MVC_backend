@@ -20,31 +20,29 @@ class Product extends Controller{
         } else {
             return $this->productModel->getProducts();
         }
-    }
-
-    public function newProduct() {
-        if (isset($_POST['pName'], $_POST['category'], $_POST['price'], $_POST['size']) && !empty($_POST['pId'])) {
+    }    public function newProduct() {
+        if (isset($_POST['pName'], $_POST['category'], $_POST['price'], $_POST['size'])) {
             $pName = $_POST['pName'];
             $category = $_POST['category'];
             $price = $_POST['price'];
             $size = $_POST['size'];
-            return $this->productModel->newProduct($pName, $category, $price, $size);
+            $image_url = $_POST['image_url'] ?? '';
+            return $this->productModel->newProduct($pName, $category, $price, $size, $image_url);
         }
     }
 
     public function removeProduct() {
         $pId = $_POST['pId'];
         return $this->productModel->removeProduct($pId);
-    }
-    
-    public function updateProduct() {
+    }    public function updateProduct() {
         if (isset($_POST['pId'], $_POST['pName'], $_POST['category'], $_POST['price'], $_POST['size'])) {
             $pId = $_POST['pId'];
             $pName = $_POST['pName'];
             $category = $_POST['category'];
             $price = $_POST['price'];
             $size = $_POST['size'];
-            return $this->productModel->updateProduct($pName, $category, $price, $size, $pId);
+            $image_url = $_POST['image_url'] ?? '';
+            return $this->productModel->updateProduct($pName, $category, $price, $size, $pId, $image_url);
         }
         return self::response(400, '所有欄位為必要輸入');
     }

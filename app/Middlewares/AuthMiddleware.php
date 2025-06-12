@@ -28,12 +28,23 @@ class AuthMiddleware extends Controller {
     }
 
     public static function checkToken() {
-        $header = getallheaders();
-        $jwt = $header['Authorization'];
+        // 使用 getallheaders() 獲取 Authorization header
+        $headers = getallheaders();
+        
+        if (!isset($headers['Authorization'])) {
+            return array(
+                "status" => 401,
+                "message" => "Authorization header not found"
+            );
+        }
+        
+        $jwt = $headers['Authorization'];
+        
         // Remove "Bearer " prefix (7 characters) from the token if it exists
-        if (isset($jwt) && strpos($jwt, 'Bearer ') === 0) {
+        if (strpos($jwt, 'Bearer ') === 0) {
             $jwt = substr($jwt, 7);
         }
+        
         $conf = parse_ini_file(__DIR__ . '/../../vendor/.env');
         $secret_key = $conf['secret_key'];
         try {
@@ -55,8 +66,20 @@ class AuthMiddleware extends Controller {
     }
 
     public static function doLogin() {
-        $mId = $_POST['mId'];
-        $password = $_POST['password'];
+        // 獲取 JSON 輸入資料
+        $input = json_decode(file_get_contents('php://input'), true);
+        
+        // 如果是 JSON 資料，從 $input 取得；否則從 $_POST 取得
+        $mId = isset($input['mId']) ? $input['mId'] : (isset($_POST['mId']) ? $_POST['mId'] : null);
+        $password = isset($input['password']) ? $input['password'] : (isset($_POST['password']) ? $_POST['password'] : null);
+        
+        if (!$mId || !$password) {
+            return array(
+                "status" => 400,
+                "message" => "Missing mId or password"
+            );
+        }
+        
         $memberModel = new memberModel();
         $response = $memberModel->verifyCredentials($mId, $password);
 
