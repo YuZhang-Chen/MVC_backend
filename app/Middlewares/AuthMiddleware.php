@@ -66,7 +66,6 @@ class AuthMiddleware extends Controller {
     }
 
     public static function doLogin() {
-        // 獲取 JSON 輸入資料
         $input = json_decode(file_get_contents('php://input'), true);
         
         // 如果是 JSON 資料，從 $input 取得；否則從 $_POST 取得

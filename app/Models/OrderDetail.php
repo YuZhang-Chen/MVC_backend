@@ -11,7 +11,7 @@ class OrderDetail {
             od.pId,
             p.pName,
             p.category,
-            p.price,
+            od.price,
             p.size,
             od.quantity
         FROM 
@@ -23,5 +23,11 @@ class OrderDetail {
         ";
         $args = [$oId];
         return DB::read($sql, $args);
+    }
+
+    public function newOrderDetail($oId, $pId, $quantity, $price) {
+        $sql = "INSERT INTO `order_detail` (`oId`, `pId`, `quantity`, `price`) VALUES (?, ?, ?, ?);";
+        $args = [$oId, $pId, $quantity, $price];
+        return DB::create($sql, $args);
     }
 }

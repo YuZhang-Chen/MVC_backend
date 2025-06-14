@@ -4,8 +4,15 @@ namespace Models;
 use Vendor\DB;
 
 class Order {
+
+    public function getOrderId($mId) {
+        $sql = "SELECT oId FROM `order` WHERE mId=? order BY oId DESC LIMIT 1;";
+        $args = [$mId];
+        return DB::read($sql, $args);
+    }
+
     public function getOrders() {
-        $sql = "SELECT * FROM `order`";
+        $sql = "SELECT * FROM `order` ORDER BY `oId` DESC";
         $args = null;
         return DB::read($sql, $args);
     }

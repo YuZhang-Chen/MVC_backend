@@ -23,8 +23,8 @@ class Member {
     }
 
     public function removeMember($mId) {
-        $sql = "DELETE FROM `member` WHERE `mId` = ?";
-        $args = [$mId];
+        $sql = "DELETE FROM `member` WHERE `mId` = ?; DELETE FROM user_role WHERE user_id = ?";
+        $args = [$mId, $mId];
         return DB::delete($sql, $args);
     }
 

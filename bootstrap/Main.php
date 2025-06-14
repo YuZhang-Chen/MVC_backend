@@ -28,7 +28,7 @@ class Main {
         }
 
         // 定義公開可存取的 actions（無須認證）
-        $publicActions = ['doLogin', 'getProducts'];
+        $publicActions = ['doLogin', 'getProducts', 'newMember'];
         
         // 檢查是否為公開 action
         if (in_array($action, $publicActions)) {

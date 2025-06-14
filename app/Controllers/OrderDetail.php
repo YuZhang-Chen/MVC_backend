@@ -13,9 +13,15 @@ class OrderDetail extends Controller {
     }
 
     public function getOrderDetail() {
-        if (isset($_POST['oId'])) {
-            $oId = $_POST['oId'];
-            return $this->orderDetailModel->getOrderDetail($oId);
-        }
+        $oId = $_POST['oId'];
+        return $this->orderDetailModel->getOrderDetail($oId);
+    }
+
+    public function newOrderDetail() {
+        $oId = $_POST['oId'];
+        $pId = $_POST['pId'];
+        $quantity = $_POST['quantity'];
+        $price = $_POST['price'];
+        return $this->orderDetailModel->newOrderDetail($oId, $pId, $quantity, $price);
     }
 }

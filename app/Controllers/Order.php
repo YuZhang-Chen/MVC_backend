@@ -12,6 +12,13 @@ class Order extends Controller{
         $this->orderModel = new orderModel();
     }
 
+    public function getOrderId() {
+        if (isset($_POST["mId"])) {
+            $mId = $_POST["mId"];
+            return $this->orderModel->getOrderId($mId);
+        }
+    }
+
     public function getOrders() {
         if (isset($_POST['oId'])) {
             $oId = $_POST['oId'];
