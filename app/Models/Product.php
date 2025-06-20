@@ -14,7 +14,9 @@ class Product {
         $sql = "SELECT * FROM `product` WHERE `pId` = ?";
         $args = [$pId];
         return DB::read($sql, $args);
-    }    public function newProduct($pName, $category, $price, $size, $image_url = '') {
+    }    
+    
+    public function newProduct($pName, $category, $price, $size, $image_url = '') {
         $sql = "INSERT INTO `product` (`pName`, `category`, `price`, `size`, `image_url`) VALUES (?, ?, ?, ?, ?)";
         $args = [$pName, $category, $price, $size, $image_url];
         return DB::create($sql, $args);

@@ -20,7 +20,9 @@ class Product extends Controller{
         } else {
             return $this->productModel->getProducts();
         }
-    }    public function newProduct() {
+    }    
+    
+    public function newProduct() {
         if (isset($_POST['pName'], $_POST['category'], $_POST['price'], $_POST['size'])) {
             $pName = $_POST['pName'];
             $category = $_POST['category'];
