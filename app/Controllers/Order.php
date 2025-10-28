@@ -43,7 +43,8 @@ class Order extends Controller{
         $oId = $_POST['oId'];
         return $this->orderModel->removeOrder($oId);
     }
-      public function updateOrder() {
+      
+    public function updateOrder() {
         if (isset($_POST['oId'], $_POST['mId'], $_POST['datetime'], $_POST['status'])) {
             $oId = $_POST['oId'];
             $mId = $_POST['mId'];

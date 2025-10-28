@@ -49,7 +49,9 @@ class Member extends Controller {
             return $this->memberModel->updateMember($name, $phone, $email, $password, $mId);
         }
         return self::response(400, '所有欄位為必要輸入');
-    }    public function countMembers() {
+    }    
+    
+    public function countMembers() {
         $result = $this->memberModel->countMembers();
         if ($result['status'] == 200) {
             return self::response(200, '獲取會員數量成功', $result['result'][0]['count']);

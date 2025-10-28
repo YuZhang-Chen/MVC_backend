@@ -26,7 +26,9 @@ class Product {
         $sql = "DELETE FROM `product` WHERE `pId` = ?";
         $args = [$pId];
         return DB::delete($sql, $args);
-    }    public function updateProduct($pName, $category, $price, $size, $pId, $image_url = '') {
+    }    
+    
+    public function updateProduct($pName, $category, $price, $size, $pId, $image_url = '') {
         $sql = "UPDATE `product` SET `pName` = ?, `category` = ?, `price` = ?, `size` = ?, `image_url` = ? WHERE `pId` = ?";
         $args = [$pName, $category, $price, $size, $image_url, $pId];
         return DB::update($sql, $args);
